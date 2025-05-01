@@ -2,10 +2,20 @@
 
 So, cursor app helped a lot to ths construction of this app, i have the bases for django and other python frameworks but i also embrace the help of IA to the fast and high quality of app building.
 
+
+
 to run this app: put a terminal into the folder where this README.md is,
+
+create the venv
+     py -m venv venv
+
 Run o activate the venv
     .\venv\Scripts\Activate.ps1
-next run to run the app
+
+Install dependencies
+    pip install -r requirements.txt   
+
+next to run the app
     py manage.py runserver
 
         {Watching for file changes with StatReloader
