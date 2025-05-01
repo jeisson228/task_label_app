@@ -13,8 +13,9 @@ from rest_framework import status
 # Create your views here.
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def test_view(request):
-    return Response({"message": "Hello World!"})
+    return Response({"message": "You are connected to the server"})
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -117,3 +118,18 @@ def delete_task(request):
         return Response({'message': f'Task "{task_name}" deleted successfully'}, status=status.HTTP_200_OK)
     except Task.DoesNotExist:
         return Response({'error': 'Task not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_label(request):
+    label_name = request.data.get('name')
+    
+    if not label_name:
+        return Response({'error': 'Label name is required'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        label = Label.objects.get(name=label_name, owner=request.user)
+        label.delete()
+        return Response({'message': f'Label "{label_name}" deleted successfully'}, status=status.HTTP_200_OK)
+    except Label.DoesNotExist:
+        return Response({'error': 'Label not found'}, status=status.HTTP_404_NOT_FOUND)
